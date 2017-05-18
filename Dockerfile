@@ -29,7 +29,6 @@ RUN \
 # ============================================================================
 RUN apt-get clean \
 	&& apt-get -yq update \
-	&& apt-get -yq upgrade \
 	&& apt-get install -yq --no-install-recommends \
 		curl build-essential make ca-certificates \
 	&& apt-get clean \
@@ -38,12 +37,15 @@ RUN apt-get clean \
 # ============================================================================
 # Perlbrew installation
 # ============================================================================
-RUN mkdir -p ${PERLBREW_ROOT} && curl -kL http://install.perlbrew.pl | bash
+RUN mkdir -p ${PERLBREW_ROOT} \
+	&& set -o pipefail \
+	&& curl -kL http://install.perlbrew.pl | bash
 
 # ============================================================================
 # Install specific perl
 # ============================================================================
-RUN bash -c "source ${PERLBREW_ROOT}/etc/bashrc && perlbrew install ${perl_version} ${perl_options} && rm -rf ${PERLBREW_ROOT}/{build,dists}/*"
+RUN bash -c "source ${PERLBREW_ROOT}/etc/bashrc && perlbrew install ${perl_version} ${perl_options}" \
+	&& rm -rf ${PERLBREW_ROOT}/{build,dists}/*
 RUN bash -c "source ${PERLBREW_ROOT}/etc/bashrc && perlbrew install-cpanm"
 
 # ============================================================================
