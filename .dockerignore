@@ -1,0 +1,8 @@
+.cpanm
+.perlbrew
+
+.git
+.gitignore
+
+Dockerfile
+.dockerignore
