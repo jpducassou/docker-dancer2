@@ -5,9 +5,11 @@ MAINTAINER "Jean Pierre Ducassou" <jpducassou@gmail.com>
 # ============================================================================
 # Config
 # ============================================================================
-ENV PERLBREW_ROOT /opt/perlbrew
-ENV perl_version perl-5.18.4
-ENV perl_options -j 4 -Dusethreads -Duselargefiles --notest
+# Unpriviled user uid. Should be $(id -u)
+ARG UID
+ARG PERLBREW_ROOT=/opt/perlbrew
+ARG perl_version=perl-5.18.4
+ARG perl_options="-j 4 -Dusethreads -Duselargefiles --notest"
 
 # ============================================================================
 # apt config
@@ -31,6 +33,7 @@ RUN apt-get clean \
 	&& apt-get -yq update \
 	&& apt-get install -yq --no-install-recommends \
 		curl build-essential make ca-certificates \
+		libssl-dev libxml2-dev libxslt1-dev \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -50,7 +53,6 @@ RUN bash -c "source ${PERLBREW_ROOT}/etc/bashrc && perlbrew install-cpanm"
 # ============================================================================
 # Create dancer user
 # ============================================================================
-ARG UID
 RUN adduser \
 	--shell "/bin/bash" \
 	--home /home/dancer \
