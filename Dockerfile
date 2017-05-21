@@ -37,8 +37,7 @@ RUN apt-get clean \
 # ============================================================================
 # Perlbrew installation
 # ============================================================================
-RUN mkdir -p ${PERLBREW_ROOT} \
-	&& set -o pipefail \
+RUN mkdir -p "${PERLBREW_ROOT}" \
 	&& curl -kL http://install.perlbrew.pl | bash
 
 # ============================================================================
@@ -51,13 +50,13 @@ RUN bash -c "source ${PERLBREW_ROOT}/etc/bashrc && perlbrew install-cpanm"
 # ============================================================================
 # Create dancer user
 # ============================================================================
-# --build-arg UID=$(id -u)
 ARG UID
 RUN adduser \
 	--shell "/bin/bash" \
-	--user-group \
-	--create-home --home-dir /home/dancer \
-	--non-unique -u ${UID} dancer
+	--home /home/dancer \
+	--disabled-password \
+	--gecos "dancer user" \
+	-u "${UID}" dancer
 
 # ============================================================================
 # As dancer user

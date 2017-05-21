@@ -4,6 +4,7 @@
 # --build-arg http_proxy="${http_proxy}"   \
 
 docker build --rm \
+	--build-arg UID=$(id -u) \
 	$@ \
 	-t docker-dancer2 .
 
