@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# --build-arg https_proxy="${https_proxy}" \
-# --build-arg http_proxy="${http_proxy}"   \
-
 docker build --rm \
+	--build-arg https_proxy="${https_proxy}" \
+	--build-arg http_proxy="${http_proxy}"   \
 	$@ \
 	-t docker-dancer2 .
 
