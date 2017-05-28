@@ -4,7 +4,7 @@ set -e
 source "${PERLBREW_ROOT}/etc/bashrc"
 perlbrew use "${perl_version}"
 if [ -f cpanfile ]; then
-	cpanm --installdeps --skip-satisfied .
+	cpanm -L "./.local" --installdeps --skip-satisfied .
 else
 	echo "cpanfile not found!"
 fi

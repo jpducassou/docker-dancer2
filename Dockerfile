@@ -78,6 +78,9 @@ VOLUME [".perlbrew"]
 RUN mkdir .cpanm
 VOLUME [".cpanm"]
 
+RUN mkdir .local
+VOLUME [".local"]
+
 # ============================================================================
 # Utilities
 # ============================================================================
@@ -93,6 +96,7 @@ ONBUILD RUN /home/dancer/install_deps
 # ============================================================================
 # Execution
 # ============================================================================
+ENV PERL5LIB=/home/dancer/.local:$PERL5LIB
 EXPOSE 5000
 ENTRYPOINT ["/home/dancer/run"]
 CMD ["plackup", "-r", "bin/app.psgi"]
