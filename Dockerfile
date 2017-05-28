@@ -91,7 +91,6 @@ ADD install_deps  /home/dancer
 # Child image steps
 # ============================================================================
 ONBUILD ADD . /home/dancer
-ONBUILD RUN /home/dancer/install_deps
 
 # ============================================================================
 # Execution
