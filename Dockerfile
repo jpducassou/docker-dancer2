@@ -7,8 +7,11 @@ MAINTAINER "Jean Pierre Ducassou" <jpducassou@gmail.com>
 # ============================================================================
 # Unpriviled user uid. Should be $(id -u)
 ARG UID
+ENV UID=$UID
 ARG PERLBREW_ROOT=/opt/perlbrew
+ENV PERLBREW_ROOT=$PERLBREW_ROOT
 ARG perl_version=perl-5.18.4
+ENV perl_version=$perl_version
 ARG perl_options="-j 4 -Dusethreads -Duselargefiles --notest"
 
 # ============================================================================
@@ -75,20 +78,21 @@ VOLUME [".perlbrew"]
 RUN mkdir .cpanm
 VOLUME [".cpanm"]
 
-# RUN mkdir .local
-# VOLUME [".local"]
+# ============================================================================
+# Utilities
+# ============================================================================
+ADD run           /home/dancer
+ADD install_deps  /home/dancer
 
 # ============================================================================
 # Child image steps
 # ============================================================================
 ONBUILD ADD . /home/dancer
+ONBUILD RUN /home/dancer/install_deps
 
 # ============================================================================
 # Execution
 # ============================================================================
-ENV PERLBREW_ROOT=$PERLBREW_ROOT
-ENV perl_version=$perl_version
-ADD run /home/dancer
 EXPOSE 5000
 ENTRYPOINT ["/home/dancer/run"]
 CMD ["plackup", "-r", "bin/app.psgi"]
