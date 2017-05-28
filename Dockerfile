@@ -75,9 +75,21 @@ VOLUME [".perlbrew"]
 RUN mkdir .cpanm
 VOLUME [".cpanm"]
 
+# RUN mkdir .local
+# VOLUME [".local"]
+
+# ============================================================================
+# Child image steps
+# ============================================================================
+ONBUILD ADD . /home/dancer
+
 # ============================================================================
 # Execution
 # ============================================================================
+ENV PERLBREW_ROOT=$PERLBREW_ROOT
+ENV perl_version=$perl_version
+ADD run /home/dancer
 EXPOSE 5000
-CMD "plackup -r bin/app.psgi"
+ENTRYPOINT ["/home/dancer/run"]
+CMD ["plackup", "-r", "bin/app.psgi"]
 
