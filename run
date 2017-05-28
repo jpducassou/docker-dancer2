@@ -3,5 +3,5 @@
 set -e
 source "${PERLBREW_ROOT}/etc/bashrc"
 perlbrew use "${perl_version}"
-$@
+exec $@
 
