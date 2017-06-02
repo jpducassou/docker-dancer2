@@ -6,6 +6,8 @@ MAINTAINER "Jean Pierre Ducassou" <jpducassou@gmail.com>
 # Config
 # ============================================================================
 # Unpriviled user uid. Should be $(id -u)
+ARG https_proxy
+ARG http_proxy
 ARG UID
 ENV UID=$UID
 ARG PERLBREW_ROOT=/opt/perlbrew
